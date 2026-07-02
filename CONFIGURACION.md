@@ -4,15 +4,11 @@ Esta guía es para dejar la app funcionando de verdad, conectada a tu Google She
 y publicada en internet. Son pasos que solo tú puedes hacer porque requieren tus
 cuentas personales (Google y GitHub). Tómate tu tiempo, no hay prisa.
 
-## Paso 1 — Comparte la hoja de cálculo contigo mismo
+## Paso 1 — Nada que hacer aquí
 
-La hoja "NutriAlba" está en el Google Drive de Alba. Para que tu cuenta (la que
-usarás para iniciar sesión en la app) pueda escribir en ella:
-
-1. Abre la hoja de cálculo "NutriAlba" en Google Sheets.
-2. Pulsa el botón **Compartir** (arriba a la derecha).
-3. Añade tu propia cuenta de Google (la del papá) con permiso de **Editor**.
-4. Guarda.
+La hoja "NutriAlba" ya está en el Google Drive de Alba, y va a ser ella quien
+inicie sesión en la app con su propia cuenta. Como ya es la dueña del archivo,
+no hace falta compartir nada. Puedes pasar directamente al paso 2.
 
 ## Paso 2 — Crea el proyecto en Google Cloud Console
 
@@ -30,10 +26,11 @@ Esto es la pantalla que aparece cuando inicias sesión, para autorizar la app.
 2. Tipo de usuario: **Externo** → Crear.
 3. Nombre de la app: `NutriAlba`. Correo de asistencia y de contacto: el tuyo.
 4. Sigue los siguientes pasos con los valores por defecto (no hace falta añadir permisos especiales) hasta guardar.
-5. En la sección **Usuarios de prueba**, añade tu correo de Google (y el de Alba si
-   ella también va a iniciar sesión alguna vez). Mientras la app esté en modo
-   "Prueba" (lo estará, es normal para un uso familiar), solo estos correos
-   podrán iniciar sesión — es una medida de seguridad de Google, no de la app.
+5. En la sección **Usuarios de prueba**, añade el correo de Google de Alba (y el
+   tuyo también, por si algún día quieres entrar tú a registrar algo). Mientras
+   la app esté en modo "Prueba" (lo estará, es normal para un uso familiar),
+   solo estos correos podrán iniciar sesión — es una medida de seguridad de
+   Google, no de la app.
 
 ## Paso 4 — Crea las credenciales (Client ID)
 
@@ -61,13 +58,20 @@ Client ID y te guío para crear el repositorio `nutrialba` en tu cuenta de GitHu
 y publicarlo. También puedo subir yo los archivos si me confirmas que quieres
 que use tu `git` local para hacerlo.
 
-## Paso 7 — Ábrela en la tablet
+## Paso 7 — Ábrela en la tablet (hazlo tú la primera vez, con Alba delante)
 
 1. En Chrome de la tablet, entra en `https://lgr79a007.github.io/nutrialba/`.
-2. Pulsa **Conectar con Google** e inicia sesión con tu cuenta (la que añadiste
-   como usuario de prueba y como editora de la hoja).
-3. Para que parezca una app de verdad: menú de Chrome (⋮) → **Añadir a pantalla
-   de inicio**. Aparecerá un icono para abrirla directamente.
+2. Pulsa **Conectar con Google** e inicia sesión con la cuenta de Alba (la que
+   añadiste como usuario de prueba).
+3. Es posible que Google muestre un aviso de "esta app no está verificada" —
+   es normal en apps personales/familiares sin publicar. Pulsa en **Avanzado**
+   (o similar) y luego **Ir a NutriAlba (no seguro)** para continuar. Es
+   seguro, solo aparece porque no hemos pasado el proceso de verificación de
+   Google (innecesario para uso familiar).
+4. Acepta el permiso para acceder a Google Sheets.
+5. Para que parezca una app de verdad: menú de Chrome (⋮) → **Añadir a pantalla
+   de inicio**. Aparecerá un icono para que Alba la abra directamente ella sola
+   las siguientes veces, sin tener que repetir el login.
 
 ---
 
