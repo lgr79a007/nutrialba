@@ -1,18 +1,19 @@
 :root {
-  --rosa-fondo: #FFF1F7;
+  --rosa-fondo: #FFF3F8;
+  --rosa-tenue: #FFEFF6;
   --rosa-claro: #FFE1EE;
   --rosa: #FFC9E0;
-  --rosa-fuerte: #FF7FAE;
-  --rosa-texto: #C2447A;
-  --lavanda: #E7DFFF;
-  --lavanda-texto: #6E58C9;
-  --melocoton: #FFE7C7;
-  --melocoton-texto: #B9711E;
-  --texto-principal: #4A3B45;
-  --texto-secundario: #8A7A85;
+  --rosa-fuerte: #FF5D9E;
+  --negro: #201A1D;
+  --morado: #7C5CD6;
+  --morado-claro: #F1ECFF;
+  --rojo: #D8314F;
+  --rojo-claro: #FCE1E7;
+  --texto-principal: #201A1D;
+  --texto-secundario: #6E6169;
   --blanco: #FFFFFF;
-  --verde-exito: #4CAF7D;
-  --rojo-error: #E1636B;
+  --verde-exito: #2F8F5B;
+  --rojo-error: #D8314F;
 }
 
 * {
@@ -33,7 +34,9 @@ h1 {
 .fondo {
   min-height: 100vh;
   background: linear-gradient(180deg, var(--rosa-claro) 0%, var(--rosa-fondo) 220px);
-  padding: 16px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .oculto {
@@ -46,26 +49,48 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - 32px);
+  min-height: calc(100vh - 40px);
 }
 
 .tarjeta-login {
   background: var(--blanco);
   border-radius: 28px;
   padding: 32px 24px;
-  max-width: 360px;
+  max-width: 400px;
   width: 100%;
   text-align: center;
-  box-shadow: 0 10px 30px rgba(255, 127, 174, 0.18);
+  box-shadow: 0 10px 30px rgba(32, 26, 29, 0.12);
 }
 
 .mascota-grande {
   margin-bottom: 8px;
 }
 
+.mascota-imagen {
+  display: block;
+  object-fit: contain;
+}
+
+.mascota-imagen-grande {
+  width: 130px;
+  height: 130px;
+  margin: 0 auto;
+}
+
+.mascota-imagen-pequena {
+  width: 52px;
+  height: 52px;
+}
+
+.mascota-imagen-resultado {
+  width: 110px;
+  height: 110px;
+  margin: 0 auto;
+}
+
 .tarjeta-login h1 {
   font-size: 28px;
-  color: var(--rosa-texto);
+  color: var(--rosa-fuerte);
   margin: 4px 0 8px;
 }
 
@@ -79,8 +104,8 @@ h1 {
 .aviso-prueba {
   margin-top: 16px;
   font-size: 12px;
-  color: var(--melocoton-texto);
-  background: var(--melocoton);
+  color: var(--morado);
+  background: var(--morado-claro);
   border-radius: 12px;
   padding: 10px 12px;
   line-height: 1.4;
@@ -129,7 +154,7 @@ h1 {
 .titulo-cabecera {
   font-family: "Baloo 2", cursive;
   font-size: 20px;
-  color: var(--rosa-texto);
+  color: var(--negro);
   margin: 0;
 }
 
@@ -161,11 +186,12 @@ h1 {
   font-size: 16px;
   color: var(--texto-principal);
   background: var(--blanco);
+  max-width: 320px;
 }
 
 .lista-momentos {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(90px, 120px));
   gap: 10px;
 }
 
@@ -174,7 +200,6 @@ h1 {
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  border: none;
   border-radius: 18px;
   background: var(--blanco);
   color: var(--texto-secundario);
@@ -188,7 +213,7 @@ h1 {
 
 .tarjeta-momento.seleccionado {
   background: var(--rosa-claro);
-  color: var(--rosa-texto);
+  color: var(--negro);
   border-color: var(--rosa-fuerte);
   font-weight: 700;
 }
@@ -197,20 +222,27 @@ h1 {
   font-size: 24px;
 }
 
+.lista-alimentos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
 .grupo-alimentos {
-  margin-bottom: 16px;
+  flex: 1 1 280px;
+  max-width: 340px;
 }
 
 .titulo-grupo {
   font-family: "Baloo 2", cursive;
   font-size: 15px;
-  color: var(--lavanda-texto);
+  color: var(--morado);
   margin: 0 0 8px;
 }
 
 .grid-alimentos {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(100px, 140px));
   gap: 10px;
 }
 
@@ -222,8 +254,8 @@ h1 {
   gap: 6px;
   border: 2px solid transparent;
   border-radius: 18px;
-  background: var(--lavanda);
-  color: var(--lavanda-texto);
+  background: var(--rosa-tenue);
+  color: var(--negro);
   padding: 16px 8px;
   font-family: "Quicksand", sans-serif;
   font-size: 13px;
@@ -235,7 +267,8 @@ h1 {
 .tarjeta-alimento.seleccionado {
   border-color: var(--rosa-fuerte);
   background: var(--rosa-claro);
-  color: var(--rosa-texto);
+  color: var(--negro);
+  font-weight: 700;
 }
 
 .icono-alimento {
@@ -246,8 +279,8 @@ h1 {
   position: absolute;
   top: -6px;
   right: -6px;
-  background: var(--melocoton);
-  color: var(--melocoton-texto);
+  background: var(--rojo-claro);
+  color: var(--rojo);
   font-size: 10px;
   font-weight: 700;
   padding: 3px 8px;
@@ -260,6 +293,8 @@ h1 {
   bottom: 0;
   background: var(--rosa-fondo);
   padding-top: 12px;
+  max-width: 420px;
+  margin: 0 auto;
 }
 
 .contador-seleccion {
@@ -275,7 +310,7 @@ h1 {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(74, 59, 69, 0.45);
+  background: rgba(32, 26, 29, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -287,18 +322,18 @@ h1 {
   background: var(--blanco);
   border-radius: 24px;
   padding: 26px 22px;
-  max-width: 360px;
+  max-width: 420px;
   width: 100%;
   max-height: 85vh;
   overflow-y: auto;
   text-align: center;
-  box-shadow: 0 10px 30px rgba(255, 127, 174, 0.25);
+  box-shadow: 0 10px 30px rgba(32, 26, 29, 0.2);
 }
 
 .modal-titulo {
   font-family: "Baloo 2", cursive;
   font-size: 19px;
-  color: var(--rosa-texto);
+  color: var(--rosa-fuerte);
   margin: 0 0 12px;
 }
 
@@ -327,12 +362,25 @@ h1 {
 }
 
 .modal-lista-alimentos li {
-  background: var(--lavanda);
-  color: var(--lavanda-texto);
+  background: var(--morado-claro);
+  color: var(--morado);
   border-radius: 14px;
   padding: 8px 14px;
   font-size: 13px;
   font-weight: 500;
+}
+
+.modal-texto-aviso {
+  font-size: 14px;
+  color: var(--texto-principal);
+  line-height: 1.5;
+  margin: 0 0 4px;
+  text-align: left;
+}
+
+.modal-lista-existentes li {
+  background: var(--rosa-tenue);
+  color: var(--texto-secundario);
 }
 
 .modal-botones {
@@ -352,7 +400,7 @@ h1 {
   border: 2px solid var(--rosa);
   border-radius: 18px;
   background: var(--blanco);
-  color: var(--rosa-texto);
+  color: var(--negro);
   font-family: "Baloo 2", cursive;
   font-size: 15px;
   font-weight: 700;
@@ -377,11 +425,4 @@ h1 {
 
 .modal-mensaje-resultado.error {
   color: var(--rojo-error);
-}
-
-@media (min-width: 600px) {
-  .fondo {
-    max-width: 480px;
-    margin: 0 auto;
-  }
 }

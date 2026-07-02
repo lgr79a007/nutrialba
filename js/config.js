@@ -8,5 +8,9 @@ const CONFIG = {
   HOJA_REGISTRO: "Registro",
 };
 
-// La app está en modo de prueba (sin conexión real a Google) si no se ha configurado el CLIENT_ID todavía.
-const MODO_PRUEBA = CONFIG.CLIENT_ID.startsWith("PON_AQUI");
+// La app está en modo de prueba (sin conexión real a Google) si no se ha configurado el CLIENT_ID
+// todavía, o si se está probando en local (el login de Google no funciona fuera de la web publicada).
+const MODO_PRUEBA =
+  CONFIG.CLIENT_ID.startsWith("PON_AQUI") ||
+  location.hostname === "localhost" ||
+  location.hostname === "127.0.0.1";

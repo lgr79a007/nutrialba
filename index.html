@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
 <title>NutriAlba</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐱</text></svg>" />
+<link rel="icon" type="image/png" href="img/Cat-black-angry-by-Rones.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -19,25 +19,7 @@
   <div id="pantalla-login" class="pantalla pantalla-login">
     <div class="tarjeta-login">
       <div class="mascota-grande">
-        <svg viewBox="0 0 100 100" width="130" height="130" role="img" aria-label="Gatita de NutriAlba">
-          <polygon points="20,32 33,6 43,38" fill="#FFC9E0"/>
-          <polygon points="80,32 67,6 57,38" fill="#FFC9E0"/>
-          <polygon points="25,28 33,14 39,34" fill="#FF9FC7"/>
-          <polygon points="75,28 67,14 61,34" fill="#FF9FC7"/>
-          <circle cx="50" cy="58" r="36" fill="#FFF1F7"/>
-          <circle cx="37" cy="54" r="5" fill="#5A3350"/>
-          <circle cx="63" cy="54" r="5" fill="#5A3350"/>
-          <circle cx="38.5" cy="52.5" r="1.6" fill="#fff"/>
-          <circle cx="64.5" cy="52.5" r="1.6" fill="#fff"/>
-          <ellipse cx="50" cy="65" rx="4.5" ry="3.2" fill="#FF7FAE"/>
-          <path d="M40 71 Q50 79 60 71" stroke="#C2447A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-          <circle cx="32" cy="64" r="6" fill="#FFC9E0" opacity="0.7"/>
-          <circle cx="68" cy="64" r="6" fill="#FFC9E0" opacity="0.7"/>
-          <line x1="10" y1="60" x2="30" y2="58" stroke="#C2447A" stroke-width="1.5"/>
-          <line x1="10" y1="67" x2="30" y2="66" stroke="#C2447A" stroke-width="1.5"/>
-          <line x1="90" y1="60" x2="70" y2="58" stroke="#C2447A" stroke-width="1.5"/>
-          <line x1="90" y1="67" x2="70" y2="66" stroke="#C2447A" stroke-width="1.5"/>
-        </svg>
+        <img src="img/Cat-black-angry-by-Rones.png" alt="Gatita de NutriAlba" class="mascota-imagen mascota-imagen-grande" />
       </div>
       <h1>NutriAlba</h1>
       <p class="subtitulo">¡Hola! Antes de empezar, conecta con Google para guardar tus comidas.</p>
@@ -53,15 +35,7 @@
   <div id="pantalla-app" class="pantalla pantalla-app oculto">
 
     <header class="cabecera">
-      <svg viewBox="0 0 100 100" width="52" height="52" role="img" aria-label="Gatita de NutriAlba">
-        <polygon points="20,32 33,6 43,38" fill="#FFC9E0"/>
-        <polygon points="80,32 67,6 57,38" fill="#FFC9E0"/>
-        <circle cx="50" cy="58" r="36" fill="#FFF1F7"/>
-        <circle cx="37" cy="54" r="5" fill="#5A3350"/>
-        <circle cx="63" cy="54" r="5" fill="#5A3350"/>
-        <ellipse cx="50" cy="65" rx="4.5" ry="3.2" fill="#FF7FAE"/>
-        <path d="M40 71 Q50 79 60 71" stroke="#C2447A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-      </svg>
+      <img src="img/Cat-black-angry-by-Rones.png" alt="Gatita de NutriAlba" class="mascota-imagen mascota-imagen-pequena" />
       <div>
         <p class="titulo-cabecera">Hola, Alba</p>
         <p class="subtitulo-cabecera">¿Qué has comido?</p>
@@ -95,12 +69,7 @@
     <div class="modal-tarjeta">
 
       <div id="modal-resumen">
-        <p class="modal-titulo">Vas a registrar</p>
-        <div class="modal-resumen-info">
-          <p id="modal-fecha"></p>
-          <p id="modal-momento"></p>
-        </div>
-        <ul id="modal-lista-alimentos" class="modal-lista-alimentos"></ul>
+        <div id="modal-resumen-cuerpo"></div>
         <div class="modal-botones">
           <button id="btn-modal-editar" class="boton-secundario">Editar</button>
           <button id="btn-modal-confirmar" class="boton-principal">Confirmar</button>
@@ -109,28 +78,14 @@
 
       <div id="modal-resultado" class="oculto">
         <div class="mascota-grande">
-          <svg viewBox="0 0 100 100" width="110" height="110" role="img" aria-label="Gatita de NutriAlba">
-            <polygon points="20,32 33,6 43,38" fill="#FFC9E0"/>
-            <polygon points="80,32 67,6 57,38" fill="#FFC9E0"/>
-            <polygon points="25,28 33,14 39,34" fill="#FF9FC7"/>
-            <polygon points="75,28 67,14 61,34" fill="#FF9FC7"/>
-            <circle cx="50" cy="58" r="36" fill="#FFF1F7"/>
-            <circle cx="37" cy="54" r="5" fill="#5A3350"/>
-            <circle cx="63" cy="54" r="5" fill="#5A3350"/>
-            <circle cx="38.5" cy="52.5" r="1.6" fill="#fff"/>
-            <circle cx="64.5" cy="52.5" r="1.6" fill="#fff"/>
-            <ellipse cx="50" cy="65" rx="4.5" ry="3.2" fill="#FF7FAE"/>
-            <path d="M40 71 Q50 79 60 71" stroke="#C2447A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-            <circle cx="32" cy="64" r="6" fill="#FFC9E0" opacity="0.7"/>
-            <circle cx="68" cy="64" r="6" fill="#FFC9E0" opacity="0.7"/>
-            <line x1="10" y1="60" x2="30" y2="58" stroke="#C2447A" stroke-width="1.5"/>
-            <line x1="10" y1="67" x2="30" y2="66" stroke="#C2447A" stroke-width="1.5"/>
-            <line x1="90" y1="60" x2="70" y2="58" stroke="#C2447A" stroke-width="1.5"/>
-            <line x1="90" y1="67" x2="70" y2="66" stroke="#C2447A" stroke-width="1.5"/>
-          </svg>
+          <img src="img/Cat-black-angry-by-Rones.png" alt="Gatita de NutriAlba" class="mascota-imagen mascota-imagen-resultado" />
         </div>
         <p id="modal-mensaje-resultado" class="modal-mensaje-resultado"></p>
         <button id="btn-modal-cerrar" class="boton-principal">Vale</button>
+        <div id="modal-botones-error" class="modal-botones oculto">
+          <button id="btn-modal-cancelar" class="boton-secundario">Cancelar</button>
+          <button id="btn-modal-reintentar" class="boton-principal">Reintentar</button>
+        </div>
       </div>
 
     </div>

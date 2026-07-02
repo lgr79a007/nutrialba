@@ -2,11 +2,11 @@
 // de fecha/comida/alimentos, iniciar sesión con Google y guardar el registro.
 
 const MOMENTOS_DEL_DIA = [
-  { id: "Desayuno", etiqueta: "Desayuno", icono: "🌅" },
-  { id: "Media mañana", etiqueta: "Media mañana", icono: "🍎" },
-  { id: "Almuerzo", etiqueta: "Almuerzo", icono: "🍽️" },
-  { id: "Merienda", etiqueta: "Merienda", icono: "🍪" },
-  { id: "Cena", etiqueta: "Cena", icono: "🌙" },
+  { id: "Desayuno", etiqueta: "Desayuno", icono: "🌅", articulo: "el desayuno" },
+  { id: "Media mañana", etiqueta: "Media mañana", icono: "🍎", articulo: "la media mañana" },
+  { id: "Almuerzo", etiqueta: "Almuerzo", icono: "🍽️", articulo: "el almuerzo" },
+  { id: "Merienda", etiqueta: "Merienda", icono: "🍪", articulo: "la merienda" },
+  { id: "Cena", etiqueta: "Cena", icono: "🌙", articulo: "la cena" },
 ];
 
 // Icono por defecto para cada grupo de alimentos. Si aparece un grupo nuevo
@@ -78,12 +78,13 @@ const els = {
   modalOverlay: document.getElementById("modal-overlay"),
   modalResumen: document.getElementById("modal-resumen"),
   modalResultado: document.getElementById("modal-resultado"),
-  modalFecha: document.getElementById("modal-fecha"),
-  modalMomento: document.getElementById("modal-momento"),
-  modalListaAlimentos: document.getElementById("modal-lista-alimentos"),
+  modalResumenCuerpo: document.getElementById("modal-resumen-cuerpo"),
   btnModalEditar: document.getElementById("btn-modal-editar"),
   btnModalConfirmar: document.getElementById("btn-modal-confirmar"),
   btnModalCerrar: document.getElementById("btn-modal-cerrar"),
+  modalBotonesError: document.getElementById("modal-botones-error"),
+  btnModalCancelar: document.getElementById("btn-modal-cancelar"),
+  btnModalReintentar: document.getElementById("btn-modal-reintentar"),
   modalMensajeResultado: document.getElementById("modal-mensaje-resultado"),
 };
 
@@ -98,12 +99,10 @@ function iniciar() {
   els.btnGuardar.addEventListener("click", abrirModalResumen);
   els.btnModalEditar.addEventListener("click", cerrarModal);
   els.btnModalConfirmar.addEventListener("click", confirmarGuardado);
-  els.btnModalCerrar.addEventListener("click", () => {
-    if (modalFueExito) {
-      cerrarModal();
-    } else {
-      mostrarVistaResumen();
-    }
+  els.btnModalCerrar.addEventListener("click", cerrarModal);
+  els.btnModalCancelar.addEventListener("click", cerrarModal);
+  els.btnModalReintentar.addEventListener("click", () => {
+    if (accionReintentar) accionReintentar();
   });
   els.modalOverlay.addEventListener("click", (e) => {
     if (e.target === els.modalOverlay) cerrarModal();
@@ -258,7 +257,7 @@ function actualizarContador() {
 
 // --- Pop-up de confirmación y guardado ---
 
-let modalFueExito = false;
+let accionReintentar = null;
 
 function formatearFecha(fechaISO) {
   const fecha = new Date(`${fechaISO}T00:00:00`);
@@ -266,22 +265,67 @@ function formatearFecha(fechaISO) {
   return texto.charAt(0).toUpperCase() + texto.slice(1);
 }
 
-function abrirModalResumen() {
+function formatearFechaCorta(fechaISO) {
+  const [anio, mes, dia] = fechaISO.split("-");
+  return `${dia}-${mes}-${anio}`;
+}
+
+function crearChips(alimentos, claseExtra) {
+  return alimentos
+    .map((alimento) => `<li class="${claseExtra || ""}">${alimento}</li>`)
+    .join("");
+}
+
+async function abrirModalResumen() {
   if (estado.seleccionados.size === 0) return;
-
-  const momento = MOMENTOS_DEL_DIA.find((m) => m.id === estado.momento);
-  els.modalFecha.textContent = formatearFecha(estado.fecha);
-  els.modalMomento.textContent = `${momento.icono} ${momento.etiqueta}`;
-
-  els.modalListaAlimentos.innerHTML = "";
-  Array.from(estado.seleccionados).forEach((alimento) => {
-    const li = document.createElement("li");
-    li.textContent = alimento;
-    els.modalListaAlimentos.appendChild(li);
-  });
-
-  mostrarVistaResumen();
   els.modalOverlay.classList.remove("oculto");
+  await comprobarYPintarResumen();
+}
+
+async function comprobarYPintarResumen() {
+  mostrarVistaResumen();
+  els.modalResumenCuerpo.innerHTML = '<p class="modal-texto-aviso">Comprobando tu registro...</p>';
+  els.btnModalConfirmar.disabled = true;
+
+  if (estado.origen !== "google") {
+    pintarResumen([]);
+    els.btnModalConfirmar.disabled = false;
+    return;
+  }
+
+  try {
+    const existentes = await SheetsAPI.obtenerRegistroDelDia(estado.token, estado.fecha, estado.momento);
+    pintarResumen(existentes);
+    els.btnModalConfirmar.disabled = false;
+  } catch (error) {
+    mostrarError(
+      "No se pudo comprobar si ya tienes alimentos registrados. Comprueba si tienes conexión a internet.",
+      comprobarYPintarResumen
+    );
+  }
+}
+
+function pintarResumen(existentes) {
+  const momento = MOMENTOS_DEL_DIA.find((m) => m.id === estado.momento);
+  const nuevos = Array.from(estado.seleccionados);
+
+  if (existentes.length > 0) {
+    els.modalResumenCuerpo.innerHTML = `
+      <p class="modal-texto-aviso">Ya tienes registrados estos alimentos para ${momento.articulo} del día ${formatearFechaCorta(estado.fecha)}:</p>
+      <ul class="modal-lista-alimentos modal-lista-existentes">${crearChips(existentes)}</ul>
+      <p class="modal-texto-aviso">¿Seguro que quieres añadir estos nuevos alimentos?</p>
+      <ul class="modal-lista-alimentos">${crearChips(nuevos)}</ul>
+    `;
+  } else {
+    els.modalResumenCuerpo.innerHTML = `
+      <p class="modal-titulo">Vas a registrar</p>
+      <div class="modal-resumen-info">
+        <p>${formatearFecha(estado.fecha)}</p>
+        <p>${momento.icono} ${momento.etiqueta}</p>
+      </div>
+      <ul class="modal-lista-alimentos">${crearChips(nuevos)}</ul>
+    `;
+  }
 }
 
 function mostrarVistaResumen() {
@@ -296,6 +340,7 @@ function cerrarModal() {
 }
 
 async function confirmarGuardado() {
+  mostrarVistaResumen();
   els.btnModalConfirmar.disabled = true;
   els.btnModalConfirmar.textContent = "Guardando...";
 
@@ -305,20 +350,33 @@ async function confirmarGuardado() {
     if (estado.origen === "google") {
       await SheetsAPI.guardarRegistro(estado.token, filas);
     }
-    mostrarResultado(true, MENSAJES_GUARDADO[Math.floor(Math.random() * MENSAJES_GUARDADO.length)]);
+    mostrarResultadoExito(MENSAJES_GUARDADO[Math.floor(Math.random() * MENSAJES_GUARDADO.length)]);
     estado.seleccionados.clear();
     pintarAlimentos();
     actualizarContador();
   } catch (error) {
-    mostrarResultado(false, "No se pudo guardar el registro. Comprueba tu conexión e inténtalo de nuevo.");
+    mostrarError(
+      "No se pudo guardar el registro. Comprueba si tienes conexión a internet.",
+      confirmarGuardado
+    );
   }
 }
 
-function mostrarResultado(exito, texto) {
-  modalFueExito = exito;
+function mostrarResultadoExito(texto) {
   els.modalMensajeResultado.textContent = texto;
-  els.modalMensajeResultado.className = "modal-mensaje-resultado " + (exito ? "exito" : "error");
-  els.btnModalCerrar.textContent = exito ? "Vale" : "Volver a intentarlo";
+  els.modalMensajeResultado.className = "modal-mensaje-resultado exito";
+  els.btnModalCerrar.classList.remove("oculto");
+  els.modalBotonesError.classList.add("oculto");
+  els.modalResumen.classList.add("oculto");
+  els.modalResultado.classList.remove("oculto");
+}
+
+function mostrarError(texto, reintentar) {
+  accionReintentar = reintentar;
+  els.modalMensajeResultado.textContent = texto;
+  els.modalMensajeResultado.className = "modal-mensaje-resultado error";
+  els.btnModalCerrar.classList.add("oculto");
+  els.modalBotonesError.classList.remove("oculto");
   els.modalResumen.classList.add("oculto");
   els.modalResultado.classList.remove("oculto");
 }
