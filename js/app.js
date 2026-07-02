@@ -73,8 +73,18 @@ const els = {
   listaMomentos: document.getElementById("lista-momentos"),
   listaAlimentos: document.getElementById("lista-alimentos"),
   btnGuardar: document.getElementById("btn-guardar"),
-  mensajeEstado: document.getElementById("mensaje-estado"),
   contadorSeleccion: document.getElementById("contador-seleccion"),
+  loginError: document.getElementById("login-error"),
+  modalOverlay: document.getElementById("modal-overlay"),
+  modalResumen: document.getElementById("modal-resumen"),
+  modalResultado: document.getElementById("modal-resultado"),
+  modalFecha: document.getElementById("modal-fecha"),
+  modalMomento: document.getElementById("modal-momento"),
+  modalListaAlimentos: document.getElementById("modal-lista-alimentos"),
+  btnModalEditar: document.getElementById("btn-modal-editar"),
+  btnModalConfirmar: document.getElementById("btn-modal-confirmar"),
+  btnModalCerrar: document.getElementById("btn-modal-cerrar"),
+  modalMensajeResultado: document.getElementById("modal-mensaje-resultado"),
 };
 
 function iniciar() {
@@ -85,7 +95,19 @@ function iniciar() {
   });
 
   pintarMomentos();
-  els.btnGuardar.addEventListener("click", guardarSeleccion);
+  els.btnGuardar.addEventListener("click", abrirModalResumen);
+  els.btnModalEditar.addEventListener("click", cerrarModal);
+  els.btnModalConfirmar.addEventListener("click", confirmarGuardado);
+  els.btnModalCerrar.addEventListener("click", () => {
+    if (modalFueExito) {
+      cerrarModal();
+    } else {
+      mostrarVistaResumen();
+    }
+  });
+  els.modalOverlay.addEventListener("click", (e) => {
+    if (e.target === els.modalOverlay) cerrarModal();
+  });
 
   if (MODO_PRUEBA) {
     els.avisoPrueba.classList.remove("oculto");
@@ -129,7 +151,7 @@ function solicitarAcceso() {
     if (respuesta && respuesta.access_token) {
       await entrarConToken(respuesta.access_token);
     } else {
-      mostrarError("No se ha podido iniciar sesión con Google. Inténtalo de nuevo.");
+      mostrarErrorLogin("No se ha podido iniciar sesión con Google. Inténtalo de nuevo.");
     }
   });
   clienteToken.requestAccessToken({ prompt: "" });
@@ -141,8 +163,13 @@ async function entrarConToken(token) {
     const alimentos = await SheetsAPI.obtenerAlimentos(token);
     entrarConDatos(alimentos, "google");
   } catch (error) {
-    mostrarError("No se pudo leer la lista de alimentos desde Google Sheets. Revisa tu conexión e inténtalo de nuevo.");
+    mostrarErrorLogin("No se pudo leer la lista de alimentos desde Google Sheets. Revisa tu conexión e inténtalo de nuevo.");
   }
+}
+
+function mostrarErrorLogin(texto) {
+  els.loginError.textContent = texto;
+  els.loginError.classList.remove("oculto");
 }
 
 function entrarConDatos(alimentos, origen) {
@@ -229,13 +256,48 @@ function actualizarContador() {
   els.btnGuardar.disabled = n === 0;
 }
 
-// --- Guardado ---
+// --- Pop-up de confirmación y guardado ---
 
-async function guardarSeleccion() {
+let modalFueExito = false;
+
+function formatearFecha(fechaISO) {
+  const fecha = new Date(`${fechaISO}T00:00:00`);
+  const texto = fecha.toLocaleDateString("es-ES", { weekday: "long", day: "numeric", month: "long" });
+  return texto.charAt(0).toUpperCase() + texto.slice(1);
+}
+
+function abrirModalResumen() {
   if (estado.seleccionados.size === 0) return;
 
-  els.btnGuardar.disabled = true;
-  els.btnGuardar.textContent = "Guardando...";
+  const momento = MOMENTOS_DEL_DIA.find((m) => m.id === estado.momento);
+  els.modalFecha.textContent = formatearFecha(estado.fecha);
+  els.modalMomento.textContent = `${momento.icono} ${momento.etiqueta}`;
+
+  els.modalListaAlimentos.innerHTML = "";
+  Array.from(estado.seleccionados).forEach((alimento) => {
+    const li = document.createElement("li");
+    li.textContent = alimento;
+    els.modalListaAlimentos.appendChild(li);
+  });
+
+  mostrarVistaResumen();
+  els.modalOverlay.classList.remove("oculto");
+}
+
+function mostrarVistaResumen() {
+  els.modalResumen.classList.remove("oculto");
+  els.modalResultado.classList.add("oculto");
+  els.btnModalConfirmar.disabled = false;
+  els.btnModalConfirmar.textContent = "Confirmar";
+}
+
+function cerrarModal() {
+  els.modalOverlay.classList.add("oculto");
+}
+
+async function confirmarGuardado() {
+  els.btnModalConfirmar.disabled = true;
+  els.btnModalConfirmar.textContent = "Guardando...";
 
   const filas = Array.from(estado.seleccionados).map((alimento) => [estado.fecha, estado.momento, alimento]);
 
@@ -243,31 +305,22 @@ async function guardarSeleccion() {
     if (estado.origen === "google") {
       await SheetsAPI.guardarRegistro(estado.token, filas);
     }
-    mostrarExito();
+    mostrarResultado(true, MENSAJES_GUARDADO[Math.floor(Math.random() * MENSAJES_GUARDADO.length)]);
     estado.seleccionados.clear();
     pintarAlimentos();
     actualizarContador();
   } catch (error) {
-    mostrarError("No se pudo guardar el registro. Comprueba tu conexión e inténtalo de nuevo.");
-  } finally {
-    els.btnGuardar.disabled = estado.seleccionados.size === 0;
-    els.btnGuardar.textContent = "Guardar comida";
+    mostrarResultado(false, "No se pudo guardar el registro. Comprueba tu conexión e inténtalo de nuevo.");
   }
 }
 
-function mostrarExito() {
-  const mensaje = MENSAJES_GUARDADO[Math.floor(Math.random() * MENSAJES_GUARDADO.length)];
-  els.mensajeEstado.textContent = mensaje;
-  els.mensajeEstado.className = "mensaje-estado exito";
-  setTimeout(() => {
-    els.mensajeEstado.textContent = "";
-    els.mensajeEstado.className = "mensaje-estado";
-  }, 3500);
-}
-
-function mostrarError(texto) {
-  els.mensajeEstado.textContent = texto;
-  els.mensajeEstado.className = "mensaje-estado error";
+function mostrarResultado(exito, texto) {
+  modalFueExito = exito;
+  els.modalMensajeResultado.textContent = texto;
+  els.modalMensajeResultado.className = "modal-mensaje-resultado " + (exito ? "exito" : "error");
+  els.btnModalCerrar.textContent = exito ? "Vale" : "Volver a intentarlo";
+  els.modalResumen.classList.add("oculto");
+  els.modalResultado.classList.remove("oculto");
 }
 
 document.addEventListener("DOMContentLoaded", iniciar);

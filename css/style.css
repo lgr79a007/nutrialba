@@ -86,6 +86,14 @@ h1 {
   line-height: 1.4;
 }
 
+.login-error {
+  margin-top: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--rojo-error);
+  line-height: 1.4;
+}
+
 .boton-principal {
   width: 100%;
   border: none;
@@ -262,19 +270,112 @@ h1 {
   margin: 0 0 6px;
 }
 
-.mensaje-estado {
-  text-align: center;
-  font-size: 14px;
-  font-weight: 500;
-  min-height: 20px;
-  margin: 0 0 8px;
+/* Pop-up de confirmación */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(74, 59, 69, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 50;
 }
 
-.mensaje-estado.exito {
+.modal-tarjeta {
+  background: var(--blanco);
+  border-radius: 24px;
+  padding: 26px 22px;
+  max-width: 360px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(255, 127, 174, 0.25);
+}
+
+.modal-titulo {
+  font-family: "Baloo 2", cursive;
+  font-size: 19px;
+  color: var(--rosa-texto);
+  margin: 0 0 12px;
+}
+
+.modal-resumen-info p {
+  margin: 2px 0;
+  font-size: 15px;
+  color: var(--texto-principal);
+}
+
+.modal-resumen-info p:first-child {
+  font-weight: 700;
+}
+
+.modal-resumen-info p:last-child {
+  color: var(--texto-secundario);
+}
+
+.modal-lista-alimentos {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 4px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.modal-lista-alimentos li {
+  background: var(--lavanda);
+  color: var(--lavanda-texto);
+  border-radius: 14px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.modal-botones {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.modal-botones .boton-principal {
+  flex: 1;
+  width: auto;
+  margin: 0;
+}
+
+.boton-secundario {
+  flex: 1;
+  border: 2px solid var(--rosa);
+  border-radius: 18px;
+  background: var(--blanco);
+  color: var(--rosa-texto);
+  font-family: "Baloo 2", cursive;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 12px;
+  cursor: pointer;
+}
+
+#modal-resultado .boton-principal {
+  margin-top: 4px;
+}
+
+.modal-mensaje-resultado {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 8px 0 20px;
+  line-height: 1.5;
+}
+
+.modal-mensaje-resultado.exito {
   color: var(--verde-exito);
 }
 
-.mensaje-estado.error {
+.modal-mensaje-resultado.error {
   color: var(--rojo-error);
 }
 

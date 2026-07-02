@@ -45,6 +45,7 @@
       <p id="aviso-prueba" class="aviso-prueba oculto">
         Modo de prueba: la app aún no está conectada a Google Sheets de verdad. Los datos que guardes aquí no se guardan en ningún sitio.
       </p>
+      <p id="login-error" class="login-error oculto"></p>
     </div>
   </div>
 
@@ -84,10 +85,55 @@
 
     <div class="barra-guardar">
       <p id="contador-seleccion" class="contador-seleccion"></p>
-      <p id="mensaje-estado" class="mensaje-estado"></p>
       <button id="btn-guardar" class="boton-principal" disabled>Guardar comida</button>
     </div>
 
+  </div>
+
+  <!-- Pop-up de confirmación -->
+  <div id="modal-overlay" class="modal-overlay oculto">
+    <div class="modal-tarjeta">
+
+      <div id="modal-resumen">
+        <p class="modal-titulo">Vas a registrar</p>
+        <div class="modal-resumen-info">
+          <p id="modal-fecha"></p>
+          <p id="modal-momento"></p>
+        </div>
+        <ul id="modal-lista-alimentos" class="modal-lista-alimentos"></ul>
+        <div class="modal-botones">
+          <button id="btn-modal-editar" class="boton-secundario">Editar</button>
+          <button id="btn-modal-confirmar" class="boton-principal">Confirmar</button>
+        </div>
+      </div>
+
+      <div id="modal-resultado" class="oculto">
+        <div class="mascota-grande">
+          <svg viewBox="0 0 100 100" width="110" height="110" role="img" aria-label="Gatita de NutriAlba">
+            <polygon points="20,32 33,6 43,38" fill="#FFC9E0"/>
+            <polygon points="80,32 67,6 57,38" fill="#FFC9E0"/>
+            <polygon points="25,28 33,14 39,34" fill="#FF9FC7"/>
+            <polygon points="75,28 67,14 61,34" fill="#FF9FC7"/>
+            <circle cx="50" cy="58" r="36" fill="#FFF1F7"/>
+            <circle cx="37" cy="54" r="5" fill="#5A3350"/>
+            <circle cx="63" cy="54" r="5" fill="#5A3350"/>
+            <circle cx="38.5" cy="52.5" r="1.6" fill="#fff"/>
+            <circle cx="64.5" cy="52.5" r="1.6" fill="#fff"/>
+            <ellipse cx="50" cy="65" rx="4.5" ry="3.2" fill="#FF7FAE"/>
+            <path d="M40 71 Q50 79 60 71" stroke="#C2447A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <circle cx="32" cy="64" r="6" fill="#FFC9E0" opacity="0.7"/>
+            <circle cx="68" cy="64" r="6" fill="#FFC9E0" opacity="0.7"/>
+            <line x1="10" y1="60" x2="30" y2="58" stroke="#C2447A" stroke-width="1.5"/>
+            <line x1="10" y1="67" x2="30" y2="66" stroke="#C2447A" stroke-width="1.5"/>
+            <line x1="90" y1="60" x2="70" y2="58" stroke="#C2447A" stroke-width="1.5"/>
+            <line x1="90" y1="67" x2="70" y2="66" stroke="#C2447A" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <p id="modal-mensaje-resultado" class="modal-mensaje-resultado"></p>
+        <button id="btn-modal-cerrar" class="boton-principal">Vale</button>
+      </div>
+
+    </div>
   </div>
 
 </div>
